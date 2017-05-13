@@ -22,31 +22,30 @@ define(['../../general/debug'], function (debug) {
     };
 
     function hzGetElements(selectors) {
-        debug.log('hzGetElements called on ("' + selectors + '")');
+        //debug.log('hzGetElements called on ("' + selectors + '")');
         var qsa = document.querySelectorAll(selectors);
-        debug.log("qsa returned:\n", qsa);
+        //debug.log("qsa returned:\n", qsa);
         return _hzNodeListToAr(qsa);
     }
 
     function hzAddClasses(element, classes) {
 
         if (Array.isArray(element)) {
-            debug.log('Note: hzAddClasses got an array as argument and will recurse through it');
+            //debug.log('Note: hzAddClasses got an array as argument and will recurse through it');
             return element.forEach(function(e) {
                 hzAddClasses(e, classes);
             });
         }
 
         debug.assert(element != null && classes != null, hzAddClasses);
-        debug.log('hzAddClasses', element, classes, element.className);
+        //debug.log('hzAddClasses', element, classes, element.className);
 
         var allClasses = classes + ' ' + (element.className ? element.className : '');
         var classAr = allClasses.split(splitRegex);
-        console.log('classAr', classAr);
 
         // Reduce dupes
         var resultClassAr = classAr.reduce(function (acc, val) {
-            debug.log('reduce', acc, val);
+            //debug.log('reduce', acc, val);
             if (acc.indexOf(val) === -1) acc.push(val);
             return acc;
         }, []);
@@ -57,14 +56,14 @@ define(['../../general/debug'], function (debug) {
     function hzRemoveClasses(element, classes) {
 
         if (Array.isArray(element)) {
-            debug.log('Note: hzRemoveClasses got an array as argument and will recurse through it');
+            //debug.log('Note: hzRemoveClasses got an array as argument and will recurse through it');
             return element.forEach(function(e) {
                 hzRemoveClasses(e, classes);
             });
         }
 
         debug.assert(element != null && classes != null, hzRemoveClasses);
-        debug.log('hzRemoveClasses', element, classes, element.className);
+        //debug.log('hzRemoveClasses', element, classes, element.className);
 
         var removeClassAr = classes.split(splitRegex);
         var elementClassAr = element.className.split(splitRegex);
@@ -81,38 +80,38 @@ define(['../../general/debug'], function (debug) {
     function hzToggleClass(element, className) {
 
         if (Array.isArray(element)) {
-            debug.log('Note: hzToggleClass got an array as argument and will recurse through it');
+            //debug.log('Note: hzToggleClass got an array as argument and will recurse through it');
             return element.forEach(function(e) {
                 hzToggleClass(e, className);
             });
         }
 
         debug.assert(element != null && className != null, hzToggleClass);
-        debug.log('hzToggleClass', element, className, element.className);
+        //debug.log('hzToggleClass', element, className, element.className);
 
         var elementClassAr = element.className ? element.className.split(splitRegex) : [];
 
         if (elementClassAr.indexOf(className.trim()) !== -1) {
             hzRemoveClasses(element, className);
-            debug.log('Removed "' + className + '" from element', element);
+            //debug.log('Removed "' + className + '" from element', element);
             return;
         }
 
         hzAddClasses(element, className);
-        debug.log('Added "' + className + '" to element', element);
+        //debug.log('Added "' + className + '" to element', element);
     }
 
     function hzAddEvent(element, type, func) {
 
         if (Array.isArray(element)) {
-            debug.log('Note: hzAddEvent got an array as argument and will recurse through it');
+            //debug.log('Note: hzAddEvent got an array as argument and will recurse through it');
             return element.forEach(function(e) {
                 hzAddEvent(e, type, func);
             });
         }
 
         debug.assert(element != null && type != null && func != null, hzAddEvent);
-        debug.log('hzAddEvent', element, type, func);
+        //debug.log('hzAddEvent', element, type, func);
 
         element.addEventListener(type, func);
     }
@@ -120,14 +119,14 @@ define(['../../general/debug'], function (debug) {
     function hzRemoveEvent(element, type, func) {
 
         if (Array.isArray(element)) {
-            debug.log('Note: hzRemoveEvent got an array as argument and will recurse through it');
+            //debug.log('Note: hzRemoveEvent got an array as argument and will recurse through it');
             return element.forEach(function(e) {
                 hzRemoveEvent(e, type, func);
             });
         }
 
         debug.assert(element != null && type != null && func != null, hzRemoveEvent);
-        debug.log('hzRemoveEvent', element, type, func);
+        //debug.log('hzRemoveEvent', element, type, func);
 
         element.removeEventListener(type, func);
     }
@@ -135,14 +134,14 @@ define(['../../general/debug'], function (debug) {
     function hzSetAttribute(element, name, value) {
 
         if (Array.isArray(element)) {
-            debug.log('Note: hzSetAttribute got an array as argument and will recurse through it');
+            //debug.log('Note: hzSetAttribute got an array as argument and will recurse through it');
             return element.forEach(function(e) {
                 hzSetAttribute(e, name, value);
             });
         }
 
         debug.assert(element != null && name != null && value != null, hzSetAttribute);
-        debug.log('hzSetAttribute', element, name, value);
+        //debug.log('hzSetAttribute', element, name, value);
 
         element.setAttribute(name, value);
     }
@@ -150,14 +149,14 @@ define(['../../general/debug'], function (debug) {
     function hzRemoveAttribute(element, name) {
 
         if (Array.isArray(element)) {
-            debug.log('Note: hzRemoveAttribute got an array as argument and will recurse through it');
+            //debug.log('Note: hzRemoveAttribute got an array as argument and will recurse through it');
             return element.forEach(function(e) {
                 hzRemoveAttribute(e, name);
             });
         }
 
         debug.assert(element != null && name != null, hzRemoveAttribute);
-        debug.log('hzRemoveAttribute', element, name);
+        //debug.log('hzRemoveAttribute', element, name);
 
         element.removeAttribute(name);
     }
@@ -165,14 +164,14 @@ define(['../../general/debug'], function (debug) {
     function hzGetAttribute(element, name) {
 
         if (Array.isArray(element)) {
-            debug.log('Note: hzGetAttribute got an array as argument and will recurse through it');
+            //debug.log('Note: hzGetAttribute got an array as argument and will recurse through it');
             return element.map(function(e) {
                 return hzGetAttribute(e, name);
             });
         }
 
         debug.assert(element != null && name != null, hzGetAttribute);
-        debug.log('hzGetAttribute', element, name);
+        //debug.log('hzGetAttribute', element, name);
 
         return element.getAttribute(name);
     }
