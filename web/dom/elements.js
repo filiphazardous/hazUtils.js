@@ -8,11 +8,17 @@ define(['../../general/debug'], function (debug) {
 
     return {
         get: hzGetElements,
+
         addClasses: hzAddClasses,
-        removeClasses: hzRemoveClasses,
+        remClasses: hzRemoveClasses,
         toggle: hzToggleClass,
+
         addEvent: hzAddEvent,
-        removeEvent: hzRemoveEvent
+        remEvent: hzRemoveEvent,
+
+        setAttr: hzSetAttribute,
+        remAttr: hzRemoveAttribute,
+        getAttr: hzGetAttribute
     };
 
     function hzGetElements(selectors) {
@@ -125,6 +131,52 @@ define(['../../general/debug'], function (debug) {
 
         element.removeEventListener(type, func);
     }
+
+    function hzSetAttribute(element, name, value) {
+
+        if (Array.isArray(element)) {
+            debug.log('Note: hzSetAttribute got an array as argument and will recurse through it');
+            return element.forEach(function(e) {
+                hzSetAttribute(e, name, value);
+            });
+        }
+
+        debug.assert(element != null && name != null && value != null, hzSetAttribute);
+        debug.log('hzSetAttribute', element, name, value);
+
+        element.setAttribute(name, value);
+    }
+
+    function hzRemoveAttribute(element, name) {
+
+        if (Array.isArray(element)) {
+            debug.log('Note: hzRemoveAttribute got an array as argument and will recurse through it');
+            return element.forEach(function(e) {
+                hzRemoveAttribute(e, name);
+            });
+        }
+
+        debug.assert(element != null && name != null, hzRemoveAttribute);
+        debug.log('hzRemoveAttribute', element, name);
+
+        element.removeAttribute(name);
+    }
+
+    function hzGetAttribute(element, name) {
+
+        if (Array.isArray(element)) {
+            debug.log('Note: hzGetAttribute got an array as argument and will recurse through it');
+            return element.map(function(e) {
+                return hzGetAttribute(e, name);
+            });
+        }
+
+        debug.assert(element != null && name != null, hzGetAttribute);
+        debug.log('hzGetAttribute', element, name);
+
+        return element.getAttribute(name);
+    }
+
 
     // Fast nodeList to Array conv, borrowed from
     // http://stackoverflow.com/questions/3199588/fastest-way-to-convert-javascript-nodelist-to-array
